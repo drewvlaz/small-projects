@@ -5,8 +5,8 @@ def get_lucky_nums(max_num, max_pb, num_of_nums=5):
     """ Print a random set of numbers and a powerball """
 
     # Calculate random numbers in given range after scrambling a random amount of times
-    times = np.random.randint(1,11)
-    for i in range(times):
+    iterations = np.random.randint(1,11)
+    for i in range(iterations):
         nums =  np.random.randint(1, max_num + 1, size=num_of_nums)
         powerball = np.random.randint(1, max_pb + 1, size=1)
 
