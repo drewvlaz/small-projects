@@ -33,3 +33,5 @@ def get_lucky_nums(max_num, max_pb, num_of_nums=5):
 
 
 get_lucky_nums(70, 25)
+
+# "May the odds be ever in your favor"
