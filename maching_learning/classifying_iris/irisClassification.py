@@ -38,9 +38,6 @@ regressor.fit(X_train, y_train)
 # use model to predict flower type
 y_predictions = regressor.predict(X_test)
 
-# print the root mean squared error
-RMSE = sqrt(mean_squared_error(y_true = y_test, y_pred = y_predictions))
-print(f"Linear Regression RMSE:{RMSE}")
 
 # determine regression type and create model
 regressor = DecisionTreeRegressor(max_depth=10)
