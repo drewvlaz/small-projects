@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error
 from math import sqrt
 
-connection = sqlite3.connect('data/iris/database.sqlite')
+connection = sqlite3.connect('data/database.sqlite')
 data = pd.read_sql_query('SELECT * FROM Iris', connection)
 
 # print(data['Species'].value_counts())
