@@ -46,6 +46,7 @@ print(f"Linear Regression RMSE:{RMSE}")
 regressor = DecisionTreeRegressor(max_depth=10)
 regressor.fit(X_train, y_train)
 
+<<<<<<< HEAD
 # use model to predict the flower type
 y_predictions = regressor.predict(X_test)
 
