@@ -46,7 +46,5 @@ regressor.fit(X_train, y_train)
 
 # use model to predict the flower type and print the root mean squared error
 y_prediction = regressor.predict(X_test)
-y_prediction
-
 RMSE = sqrt(mean_squared_error(y_true = y_test, y_pred = y_prediction))
 print("Decision Tree Regressor RMSE:",RMSE)
