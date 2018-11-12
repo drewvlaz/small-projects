@@ -29,24 +29,26 @@ y = data['Species']
 y = pd.get_dummies(y)
 
 # split into train and test
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=324)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.37, random_state=324)
 
 # determine regression type and create model
 regressor = LinearRegression()
 regressor.fit(X_train, y_train)
 
-# use model to predict flower type and print the root mean squared error
-y_prediction = regressor.predict(X_test)
-RMSE = sqrt(mean_squared_error(y_true = y_test, y_pred = y_prediction))
-print("Linear Regression RMSE:",RMSE)
+# use model to predict flower type
+y_predictions = regressor.predict(X_test)
+
+# print the root mean squared error
+RMSE = sqrt(mean_squared_error(y_true = y_test, y_pred = y_predictions))
+print(f"Linear Regression RMSE:{RMSE}")
 
 # determine regression type and create model
-regressor = DecisionTreeRegressor(max_depth=25)
+regressor = DecisionTreeRegressor(max_depth=10)
 regressor.fit(X_train, y_train)
 
-# use model to predict the flower type and print the root mean squared error
-y_prediction = regressor.predict(X_test)
-y_prediction
+# use model to predict the flower type
+y_predictions = regressor.predict(X_test)
 
-RMSE = sqrt(mean_squared_error(y_true = y_test, y_pred = y_prediction))
-print("Decision Tree Regressor RMSE:",RMSE)
+# print the root mean squared error
+RMSE = sqrt(mean_squared_error(y_true = y_test, y_pred = y_predictions))
+print(f"Decision Tree Regressor RMSE:{RMSE}")
