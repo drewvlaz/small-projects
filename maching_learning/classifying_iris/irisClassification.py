@@ -41,7 +41,7 @@ RMSE = sqrt(mean_squared_error(y_true = y_test, y_pred = y_prediction))
 print("Linear Regression RMSE:",RMSE)
 
 # determine regression type and create model
-regressor = DecisionTreeRegressor(max_depth=25)
+regressor = DecisionTreeRegressor(max_depth=10)
 regressor.fit(X_train, y_train)
 
 # use model to predict the flower type and print the root mean squared error
