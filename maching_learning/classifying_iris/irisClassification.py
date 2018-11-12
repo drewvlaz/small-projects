@@ -29,7 +29,7 @@ y = data['Species']
 y = pd.get_dummies(y)
 
 # split into train and test
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.30, random_state=324)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.37, random_state=324)
 
 # determine regression type and create model
 regressor = LinearRegression()
