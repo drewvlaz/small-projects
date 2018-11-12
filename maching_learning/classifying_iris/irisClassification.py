@@ -15,10 +15,11 @@ data = pd.read_sql_query('SELECT * FROM Iris', connection)
 del data['Id']
 
 # create list of features to train on
-features = []
-for col in list(data.columns):
-    if 'Species' not in col:
-        features.append(col)
+features = [col for col in list(data.columns) if 'Species' not in col]
+#               ^
+# for col in list(data.columns):
+#     if 'Species' not in col:
+#         features.append(col
 
 
 # create the features and target datasets
@@ -31,21 +32,20 @@ y = pd.get_dummies(y)
 # split into train and test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.37, random_state=324)
 
-# determine regression type and create model
-regressor = LinearRegression()
-regressor.fit(X_train, y_train)
+# determine regression type and create models to compare
+linear_regressor = LinearRegression()
+linear_regressor.fit(X_train, y_train)
 
-# use model to predict flower type
-y_predictions = regressor.predict(X_test)
+decision_tree_regressor = DecisionTreeRegressor(max_depth=10)
+decision_tree_regressor.fit(X_train, y_train)
 
 
-# determine regression type and create model
-regressor = DecisionTreeRegressor(max_depth=10)
-regressor.fit(X_train, y_train)
+# use models to predict flower tpe
+y_predictions_lr = linear_regressor.predict(X_test)
+y_predictions_dt = decision_tree_regressor.predict(X_test)
 
-# use model to predict the flower type
-y_predictions = regressor.predict(X_test)
-
-# print the root mean squared error
-RMSE = sqrt(mean_squared_error(y_true = y_test, y_pred = y_predictions))
-print(f"Decision Tree Regressor RMSE:{RMSE}")
+# calculate and print root mean squared errors to determine better model
+RMSE_lr = sqrt(mean_squared_error(y_true = y_test, y_pred = y_predictions_lr))
+RMSE_dt = sqrt(mean_squared_error(y_true = y_test, y_pred = y_predictions_dt))
+print(f"Linear Regression RMSE:{RMSE_lr}")
+print(f"Decision Tree Regressor RMSE:{RMSE_dt}")
