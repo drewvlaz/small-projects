@@ -39,15 +39,15 @@ def launch():
 
 # Global variable to prevent browser from automatically closing at end of main method
 
-def send_email(content):
+def send_email(subject, content, recipient):
     port = 465
     smtp_server = "smtp.gmail.com"
-    message = f"Subject: Car Update\n\n{content}\nClick here to view: {URL}"
+    message = f"Subject: {subject}\n\n{content}\nClick here to view: {URL}"
 
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtp_server, port, context=context) as server:
         server.login(SENDER_EMAIL, SENDER_EMAIL_PASS)
-        server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, message)
+        server.sendmail(SENDER_EMAIL, recipient, message)
 
 def main():
     driver = launch()
@@ -75,7 +75,6 @@ def main():
 
             for car in cars:
                 if car.get_info() not in prev_cars:
-                    print("Diff")
                     send_email(car.get_info())
 
     # Write any updates
