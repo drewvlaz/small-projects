@@ -39,8 +39,6 @@ def launch():
 
     return driver
 
-# Global variable to prevent browser from automatically closing at end of main method
-
 def send_email(subject, content, recipient):
     port = 465
     smtp_server = "smtp.gmail.com"
@@ -58,10 +56,11 @@ def main():
         EC.presence_of_element_located((By.CLASS_NAME, 'inventory-tile'))
     )
     matches = driver.find_elements(By.CLASS_NAME, 'inventory-tile')
+    num_of_matches = int(driver.find_element(By.CLASS_NAME, 'inventory-results__content__heading').get_attribute('innerHTML').strip()[1])
 
     # Create car objects to keep track of
     cars = []
-    for i in range(len(matches)):
+    for i in range(num_of_matches):
         cars.append(Car(matches[i].get_attribute('innerHTML')))
         cars[i].parse()
 
@@ -77,12 +76,16 @@ def main():
 
             for car in cars:
                 if car.get_info() not in prev_cars:
-                    send_email(car.get_info())
+                    send_email("Car Update", car.get_info(), RECEIVER_EMAIL)
 
     # Write any updates
     with open("cars.txt", "w") as f:
+        car_content = ""
         for car in cars:
-            f.write(car.get_info() + "\n")
+            car_content += car.get_info() + "\n"
+
+        f.write(car_content.strip())
+        send_email("Working", car_content, "314dsv@gmail.com")
 
     driver.close()
 
