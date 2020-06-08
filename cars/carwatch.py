@@ -32,7 +32,9 @@ class Car:
         return f"{self.name} for {self.price} at {self.distance}"
 
 def launch():
-    driver = webdriver.Chrome(executable_path='../resources/chromedriver')
+    options = webdriver.ChromeOptions()
+    options.set_headless(headless=True)
+    driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver', chrome_options=options)
     driver.get(URL)
 
     return driver
@@ -52,7 +54,7 @@ def send_email(content):
 def main():
     driver = launch()
     # Wait for matches to load and locate them
-    WebDriverWait(driver, 10).until(
+    WebDriverWait(driver, 30).until(
         EC.presence_of_element_located((By.CLASS_NAME, 'inventory-tile'))
     )
     matches = driver.find_elements(By.CLASS_NAME, 'inventory-tile')
@@ -82,5 +84,7 @@ def main():
     with open("cars.txt", "w") as f:
         for car in cars:
             f.write(car.get_info() + "\n")
+
+    driver.close()
 
 main()
