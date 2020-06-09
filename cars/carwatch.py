@@ -14,6 +14,7 @@ from secrets import (
     SENDER_EMAIL_PASS,
     RECEIVER_EMAIL
 )
+URL = 'https://www.kia.com/us/en/inventory/result?zipCode=16066&seriesId=J&year=2020&trims=SX&packages=TWJ'
 
 class Car:
     def __init__(self, source):
@@ -37,7 +38,7 @@ def launch():
     options.add_argument('--disable-gpu')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
-    driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver', chrome_options=options)
+    driver = webdriver.Chrome(executable_path='/usr/bin/chromedriver', options=options)
     driver.get(URL)
 
     return driver
@@ -55,9 +56,12 @@ def send_email(subject, content, recipient):
 def main():
     driver = launch()
     # Wait for matches to load and locate them
-    WebDriverWait(driver, 30).until(
-        EC.presence_of_element_located((By.CLASS_NAME, 'inventory-tile'))
+    WebDriverWait(driver, 60).until(
+        EC.presence_of_element_located((By.CLASS_NAME, 'dropdown_icon'))
     )
+    radius = driver.find_element(By.CLASS_NAME, 'icon-caret-up')
+    print(radius.text)
+    radius.click()
     matches = driver.find_elements(By.CLASS_NAME, 'inventory-tile')
     num_of_matches = int(driver.find_element(By.CLASS_NAME, 'inventory-results__content__heading').get_attribute('innerHTML').strip()[1])
 
