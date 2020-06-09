@@ -35,8 +35,7 @@ class Car:
 
 def launch():
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
-    options.add_argument('--disable-gpu')
+    #options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
     driver = webdriver.Chrome(executable_path='/usr/lib/chromium-browser/chromedriver', options=options)
@@ -63,7 +62,7 @@ def main():
     radius = driver.find_element(By.CLASS_NAME, 'dropdown__list')
     driver.execute_script("arguments[0].setAttribute('style','')", radius)
     time.sleep(5)
-    driver.find_elements(By.CLASS_NAME, 'dropdown__list-item')[3].click()
+    driver.find_elements(By.CLASS_NAME, 'dropdown__list-item')[1].click()
     # Wait for new results to load
     time.sleep(10)
 
