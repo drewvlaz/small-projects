@@ -1,6 +1,8 @@
 ''' A script to check cars available for purchase '''
 
-import smtplib, ssl
+import smtplib
+import ssl
+import time
 
 from bs4 import BeautifulSoup, re
 from selenium import webdriver
@@ -14,7 +16,6 @@ from secrets import (
     SENDER_EMAIL_PASS,
     RECEIVER_EMAIL
 )
-URL = 'https://www.kia.com/us/en/inventory/result?zipCode=16066&seriesId=J&year=2020&trims=SX&packages=TWJ'
 
 class Car:
     def __init__(self, source):
@@ -55,15 +56,19 @@ def send_email(subject, content, recipient):
 
 def main():
     driver = launch()
-    # Wait for matches to load and locate them
+    # Adjust radius of search
     WebDriverWait(driver, 60).until(
-        EC.presence_of_element_located((By.CLASS_NAME, 'dropdown_icon'))
+        EC.presence_of_element_located((By.CLASS_NAME, 'dropdown__icon'))
     )
-    radius = driver.find_element(By.CLASS_NAME, 'icon-caret-up')
-    print(radius.text)
-    radius.click()
-    matches = driver.find_elements(By.CLASS_NAME, 'inventory-tile')
+    radius = driver.find_element(By.CLASS_NAME, 'dropdown__list')
+    driver.execute_script("arguments[0].setAttribute('style','')", radius)
+    driver.find_elements(By.CLASS_NAME, 'dropdown__list-item')[3].click()
+    # Wait for new results to load
+    time.sleep(10)
+
+    # Find matches
     num_of_matches = int(driver.find_element(By.CLASS_NAME, 'inventory-results__content__heading').get_attribute('innerHTML').strip()[1])
+    matches = driver.find_elements(By.CLASS_NAME, 'inventory-tile')
 
     # Create car objects to keep track of
     cars = []
