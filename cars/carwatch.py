@@ -110,4 +110,5 @@ def main():
 
 while True:
     main()
-    time.sleep(3600)
+    minutes_past = int(time.strftime("%M", time.localtime()))
+    time.sleep(3600 - (minutes_past * 60))
